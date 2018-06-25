@@ -1,0 +1,39 @@
+---
+
+driver:
+  name: docker
+  use_sudo: false
+
+platforms:
+  - name: ubuntu-16.04
+    driver_config:
+      image: ubuntu:16.04
+      privileged: true
+      provision_command:
+        - apt-get -y -q install python-apt python-pycurl python-pip
+        - pip install -qqq ansible
+      use_sudo: false
+      run_command: "/sbin/init"
+  - name: ubuntu-18.04
+    driver_config:
+      image: ubuntu:18.04
+      privileged: true
+      provision_command:
+        - apt-get -y -q install python-apt python-pycurl python-pip
+        - pip install -qqq ansible
+      use_sudo: false
+      run_command: "/sbin/init"
+
+provisioner:
+  name: ansible_playbook
+  hosts: localhost
+  ansible_version:  latest
+  require_ansible_repo: false
+  require_ansible_omnibus: false
+  require_ansible_source: false
+  require_pip: true
+  ignore_extensions_from_root: [".git",".idea",".kitchen.yml"]
+  ignore_paths_from_root: [".git",".idea",".kitchen"]
+
+suites:
+  - name: default
